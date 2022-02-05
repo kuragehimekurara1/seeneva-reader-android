@@ -1,6 +1,6 @@
 /*
  * This file is part of Seeneva Android Reader
- * Copyright (C) 2021 Sergei Solodovnikov
+ * Copyright (C) 2021-2022 Sergei Solodovnikov
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ object Version {
     const val KOTLINX_COROUTINES = "1.5.1"
     const val KOTLINX_SERIALIZATION_JSON = "1.2.1"
 
+    const val ANDROIDX_MULTIDEX = "2.0.1"
     const val ANDROIDX_APPCOMPAT = "1.3.0"
     const val ANDROIDX_ACTIVITY_KTX = "1.2.3"
     const val ANDROIDX_ANNOTATIONS = "1.2.0"
@@ -65,6 +66,8 @@ object Deps {
     const val ANDROID_JAVA8_DESUGAR =
         "com.android.tools:desugar_jdk_libs:${Version.ANDROID_JAVA8_DESUGAR}"
 
+    const val ANDROIDX_MULTIDEX =
+        "androidx.multidex:multidex:${Version.ANDROIDX_MULTIDEX}"
     const val ANDROIDX_APPCOMPAT =
         "androidx.appcompat:appcompat:${Version.ANDROIDX_APPCOMPAT}"
     const val ANDROIDX_ACTIVITY_KTX =

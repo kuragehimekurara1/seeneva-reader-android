@@ -1,6 +1,6 @@
 /*
  * This file is part of Seeneva Android Reader
- * Copyright (C) 2021 Sergei Solodovnikov
+ * Copyright (C) 2021-2022 Sergei Solodovnikov
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import com.android.build.api.dsl.SigningConfig
 import com.android.build.api.dsl.VariantDimension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.internal.dsl.SigningConfig
 import extension.envOrProperty
 import extension.signProperties
 
@@ -102,7 +102,7 @@ android {
         }
     }
 
-    flavorDimensions(AppStoreFlavor.NAME)
+    flavorDimensions += setOf(AppStoreFlavor.NAME)
 
     productFlavors {
         register(AppStoreFlavor.GOOGLE_PLAY) {
@@ -124,10 +124,12 @@ android {
     }
 
     packagingOptions {
-        // https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
-        exclude("DebugProbesKt.bin")
-        // Not needed right now, but should return if I will use web connections
-        exclude("okhttp3/**/publicsuffixes.gz")
+        resources.excludes += setOf(
+            // https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
+            "DebugProbesKt.bin",
+            // Not needed right now, but should return if I will use web connections
+            "okhttp3/**/publicsuffixes.gz"
+        )
     }
 
     if (buildUsingCI) {
@@ -209,6 +211,9 @@ fun VariantDimension.enableShowDonate(enable: Boolean) {
     buildConfigField("boolean", "DONATE_ENABLED", "$enable")
 }
 
+// TODO: I'm not sure how to fix that deprecation...
+//  It seems that I should use 'androidComponents.onVariant' and its artifacts.
+//  I will left it for the future
 /**
  * Configure naming of output APKs
  * @param variant build variant to configure

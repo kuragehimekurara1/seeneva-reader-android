@@ -1,6 +1,6 @@
 /*
  * This file is part of Seeneva Android Reader
- * Copyright (C) 2021 Sergei Solodovnikov
+ * Copyright (C) 2021-2022 Sergei Solodovnikov
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ android {
     externalNativeBuild {
         cmake {
             path = rootDir.resolve("native/CMakeLists.txt")
+            version = "3.10.2"
         }
     }
 
@@ -52,7 +53,7 @@ android {
         }
     }
 
-    flavorDimensions(RustBuildTypeFlavor.NAME)
+    flavorDimensions += setOf(RustBuildTypeFlavor.NAME)
 
     productFlavors {
         register(RustBuildTypeFlavor.RUST_DEBUG) {

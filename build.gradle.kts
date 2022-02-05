@@ -1,6 +1,6 @@
 /*
  * This file is part of Seeneva Android Reader
- * Copyright (C) 2021 Sergei Solodovnikov
+ * Copyright (C) 2021-2022 Sergei Solodovnikov
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import extension.loadProperties
 import extension.requireEnvOrProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -32,11 +34,6 @@ plugins {
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        google()
-    }
-
     // we will use ViewPager2, so remove ViewPager dependency globally
     configurations.configureEach {
         exclude(group = "androidx.viewpager")
@@ -55,58 +52,40 @@ subprojects {
         plugin("org.jetbrains.kotlin.plugin.serialization")
     }
 
-    configure<BaseExtension> {
-        ndkVersion = "21.4.7075529"
-        buildToolsVersion = "30.0.3"
-        compileSdkVersion(30)
+    if (isAppLayer) {
+        configure<ApplicationExtension> {
+            baseConfig()
 
-        defaultConfig {
-            minSdkVersion(16)
-            targetSdkVersion(30)
+            defaultConfig {
+                targetSdk = appTargetSdk
 
-            loadProperties(rootDir.resolve("seeneva.properties")).also { seenevaProperties ->
-                versionCode = requireEnvOrProperty(
-                    extension.ENV_VERSION_CODE,
-                    extension.PROP_VERSION_CODE,
-                    seenevaProperties
-                ).toInt()
+                loadProperties(rootDir.resolve("seeneva.properties")).also { seenevaProperties ->
+                    versionCode = requireEnvOrProperty(
+                        extension.ENV_VERSION_CODE,
+                        extension.PROP_VERSION_CODE,
+                        seenevaProperties
+                    ).toInt()
 
-                versionName = requireEnvOrProperty(
-                    extension.ENV_VERSION_NAME,
-                    extension.PROP_VERSION_NAME,
-                    seenevaProperties
-                )
+                    versionName = requireEnvOrProperty(
+                        extension.ENV_VERSION_NAME,
+                        extension.PROP_VERSION_NAME,
+                        seenevaProperties
+                    )
+                }
+
+                multiDexEnabled = true
+            }
+        }
+    } else {
+        configure<LibraryExtension> {
+            baseConfig()
+
+            defaultConfig {
+                targetSdk = appTargetSdk
+
+                multiDexEnabled = true
             }
 
-            resConfigs("en", "ru", "nb-rNO", "fr", "de", "it")
-            vectorDrawables.useSupportLibrary = true
-
-            multiDexEnabled = true
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
-
-        compileOptions {
-            isCoreLibraryDesugaringEnabled = true
-
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
-
-        sourceSets.all {
-            java.srcDir("src/$name/kotlin")
-        }
-
-        // needed to build tests
-        packagingOptions {
-            pickFirst("META-INF/AL2.0")
-            pickFirst("META-INF/LGPL2.1")
-        }
-
-        lintOptions {
-            // Translations can miss some strings especially after Weblate pull request
-            // Lets consider this as a warning to finish 'lintRelease' Gradle task
-            // Update defaultConfig.resConfigs to add new supported translations
-            warning("MissingTranslation")
         }
     }
 
@@ -116,7 +95,7 @@ subprojects {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
     }
 
@@ -130,6 +109,7 @@ subprojects {
 
         implementation(Deps.ANDROIDX_ANNOTATIONS)
         implementation(Deps.ANDROIDX_CORE_KTX)
+        implementation(Deps.ANDROIDX_MULTIDEX)
 
         //implementation(Deps.KOIN_ANDROID)
         implementation(Deps.KOIN_ANDROIDX_SCOPE)
@@ -168,8 +148,65 @@ subprojects {
     }
 }
 
+/**
+ * Base Android subprojects configuration
+ */
+fun CommonExtension<*, *, *, *>.baseConfig() {
+    ndkVersion = "21.4.7075529"
+    buildToolsVersion = "32.0.0"
+    compileSdk = 31
+
+    defaultConfig {
+        minSdk = 16
+
+        resourceConfigurations += setOf(
+            "en",
+            "ru",
+            "nb-rNO",
+            "fr",
+            "de",
+            "it",
+            "es",
+            "eu",
+            "hr",
+            "pl",
+            "pt"
+        )
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets.all {
+        java.srcDir("src/$name/kotlin")
+    }
+
+    // needed to build tests
+    packagingOptions {
+        resources.pickFirsts += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
+    }
+
+    lint {
+        // Translations can miss some strings especially after Weblate pull request
+        // Lets consider this as a warning to finish 'lintRelease' Gradle task
+        // Update defaultConfig.resConfigs to add new supported translations
+        warning += setOf("MissingTranslation")
+    }
+}
+
 val Project.isAppLayer: Boolean
     get() = name == "app"
 
 val Project.isDataLayer: Boolean
     get() = name == "data"
+
+val appTargetSdk
+    get() = 31

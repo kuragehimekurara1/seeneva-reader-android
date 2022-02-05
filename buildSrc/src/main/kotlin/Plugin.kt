@@ -1,6 +1,6 @@
 /*
  * This file is part of Seeneva Android Reader
- * Copyright (C) 2021 Sergei Solodovnikov
+ * Copyright (C) 2021-2022 Sergei Solodovnikov
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,5 +22,5 @@ object Plugin {
 }
 
 object PluginVersion {
-    const val ANDROID = "4.2.2"
+    const val ANDROID = "7.1.0"
 }
