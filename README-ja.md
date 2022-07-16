@@ -16,7 +16,7 @@
 
 <div align="center">
 
-**Translation**: [*ロシア語*](README-ru.md)
+**他の言語**: [*ロシア語*](README-ru.md)
 
 **•**
 
@@ -44,23 +44,23 @@
 
 ---
 
-:exclamation:**Note:** Current release should be considered as public beta.
+:exclamation:**ノート:** 現在のリリースはパブリックベータと見なす必要があります。
 
-## Features
+## Seenevaの特徴
 
-- Smart [speech balloons zooming](#speech-balloons-zooming). :speech_balloon:
-- Speech balloons [***OCR*** and ***TTS***](#ocr-and-tts). :eyes:
-- Supports ***CBZ*** (.zip), ***CBR*** (.rar) with [limitations](https://github.com/Seeneva/seeneva-reader-android/issues/23), ***CB7*** (.7z), ***CBT*** (.tar) and ***PDF*** comic book archives.
-- Supports different [image formats](https://github.com/image-rs/image#supported-image-formats) on any Android device.
-- View ***ComicRack metadata*** (from `ComicInfo.xml` file).
+- スマート[ふきだしズーム](#speech-balloons-zooming). :speech_balloon:
+- ふきだし [***OCR*** と ***TTS***](#ocr-and-tts). :eyes:
+- ***CBZ*** (.zip), ***CBR*** (.rar)をサポート。  [制限]付き(https://github.com/Seeneva/seeneva-reader-android/issues/23), ***CB7*** (.7z), ***CBT*** (.tar) と ***PDF*** コミックブックアーカイブ。
+- 異なるサポート [image formats](https://github.com/image-rs/image#supported-image-formats) すべてのAndroidデバイスで。
+-  ***ComicRack metadata***を閲覧 (from `ComicInfo.xml` file).
 - Supports Left-to-Right (LTR) and Right-to-Left (RTL) read directions.
-- Supports Android ***4.1+*** and all available Android ABIs ***arm64-v8a***, ***armeabi-v7a***, ***x86_64*** and ***x86***.
+- Android ***4.1以降*** をサポート。および利用可能なすべてのAndroidABI*** arm64-v8a ***、*** armeabi-v7a ***、*** x86_64 ***および***x86***。
 - Smart functionality performs locally on the device.
 - Libre application under GPLv3 or later [license](#license).
 - No ads, no personal data collection.
 - Is it not enough? Hey, there is a bubble-whale on the icon! :whale2:
 
-## Speech balloons zooming
+## ふきだしズーム
 
 Every time you add a new comic book into the app's library, it will scan each page to find all speech balloons on them using Machine Learning object detection model (based on [YOLOv4-tiny](https://github.com/AlexeyAB/darknet)).
 
@@ -73,7 +73,7 @@ Now you can easily zooming and navigate through comic book speech balloons no ma
 - Use high res page images for better recognition.  
 - ML model was trained on ~10K speech balloons from modern comic books and manga. The result is really nice but sometimes you may encounter some issues with speech balloons order.
 
-## OCR and TTS
+## OCR と TTS
 
 *Seeneva* comic book reader make it possible to use [**O**ptical **C**haracter **R**ecognition](https://en.wikipedia.org/wiki/Optical_character_recognition) (based on [Tesseract](https://github.com/tesseract-ocr/tesseract)) on all found speech balloons to extract text from them. This will allow you to easily copy speech balloon's text and for example translate it using any available translator.
 
@@ -87,7 +87,7 @@ After every success OCR you can also use [**T**ext-**T**o-**S**peech](https://en
 - Any Android TTS engine should be installed on the device to use in-app TTS.
 - OCR was trained on ~2K of text lines primarily by [Big Two Comics](https://en.wikipedia.org/wiki/Big_Two_Comics). The result is pretty good but different text fonts may be recognized worse or better than others (or not recognize at all).
 
-## Performance
+## パフォーマンス
 
 Smart adding new comic book into the library might take a while. It is depends on your device CPU specifications, comic book archive type, pages count and their size. Here are some examples on real devices.
 
@@ -97,7 +97,7 @@ Smart adding new comic book into the library might take a while. It is depends o
 | *Nexus 5*                | ~60s                  | ~190s                  |
 | *Ainol Novo 7 Aurora II* | ~180s                 | ~600s                  |
 
-## Permissions
+## 権限
 
 *Seeneva* requires some Android permissions to run properly:
 
@@ -105,7 +105,7 @@ Smart adding new comic book into the library might take a while. It is depends o
 - `android.permission.FOREGROUND_SERVICE`: required to process comic book adding inside a [foreground Service](https://developer.android.com/guide/components/foreground-services). Each comic book goes through a ML model which can take up to a few minutes. The foreground Service allows *Seeneva* to keep adding comics without the risk of being killed by the OS when the user has placed the app in the background.
 - `android.permission.WAKE_LOCK`, `android.permission.RECEIVE_BOOT_COMPLETED`: required by [AndroidX WorkManager](https://developer.android.com/reference/androidx/work/package-summary) library. *Seeneva* uses that library to periodically sync added comic book files to determine their status (e.g. comic book file was removed, renamed or corrupted) and display that status to the user. These permissions allow to start that periodical task after the device has been rebooted.
 
-## Screenshots
+## スクリーンショット
 
 [<img src="docs/img/en/screenshot/Screenshot_1616518847.png" height=300>](docs/img/en/screenshot/Screenshot_1616518847.png)
 [<img src="docs/img/en/screenshot/Screenshot_1616519900.png" height=300>](docs/img/en/screenshot/Screenshot_1616519900.png)
@@ -114,7 +114,7 @@ Smart adding new comic book into the library might take a while. It is depends o
 [<img src="docs/img/en/screenshot/Screenshot_1616518933.png" height=300>](docs/img/en/screenshot/Screenshot_1616518933.png)
 [<img src="docs/img/en/screenshot/Screenshot_1616519486.png" height=300>](docs/img/en/screenshot/Screenshot_1616519486.png)
 
-## What's next?
+## 次は何ですか？
 
 More smart features, new supported by [OCR](#ocr-and-tts) languages. Where are a lot of ideas to implement.
 
@@ -127,7 +127,7 @@ Stay tuned!
 
 :exclamation: *Seeneva* is a non-profit project, so there is no strong road map.
 
-## Contribution
+## 現象
 
 - Open an issue if you catch a bug.
 - [Code contribution](docs/CODE_CONTRIBUTION.md) using Pull Request.
@@ -135,11 +135,11 @@ Stay tuned!
 - Tell your friends about the app.
 - Also you can support the app by [donation](#donate).
 
-## Translation
+## 翻訳
 
 [![Translation status](https://hosted.weblate.org/widgets/seeneva/-/287x66-grey.png)](https://hosted.weblate.org/engage/seeneva/)
 
-## Donate
+## 寄付
 
 *Seeneva* is a free and open source comic book reader without any income other than donations from users of the app.
 
@@ -225,7 +225,7 @@ Please remember that donations are totally voluntary. There is no any bonuses ri
 </tbody>
 </table>
 
-## FAQ
+## よくある質問
 
 **Q**: What does the *Seeneva* mean?
 
@@ -253,11 +253,11 @@ To clarify the difference:
 
 **A**: You can buy them, some comic books like [Pepper&Carrot](https://www.peppercarrot.com/) are libre. Anyway you can open any comic book by the app while its format is supported. Sorry, but *Seeneva* app ships without prebuild comic books.
 
-## Privacy Policy
+## プライバシーポリシー
 
 Please read the [PRIVACY](PRIVACY.md) document for more information.
 
-## [License](https://www.gnu.org/licenses/gpl-3.0.html)
+## [ライセンス](https://www.gnu.org/licenses/gpl-3.0.html)
 
 <p align="center">
     <img src="docs/img/icon/gplv3-or-later.svg" width=200>
@@ -284,7 +284,7 @@ List of used dependencies and their licenses can be found in the [dependencies.j
 
 Please let me know if any of a licenses has invalid information.
 
-### Other
+### その他
 
 - Some examples and tests use pages from the great webcomic [Pepper&Carrot](https://www.peppercarrot.com/) licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
